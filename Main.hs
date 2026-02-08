@@ -1,5 +1,6 @@
 import Data.Char (toLower, isDigit)
 import Data.List (isInfixOf)
+import qualified Responses as R
 
 data BotState = Idle | WaitingForTracking
 
@@ -10,18 +11,19 @@ containsAll :: String -> [String] -> Bool
 containsAll input = all (`isInfixOf` (map toLower input))
 
 -- Pattern matching on BotState and input
-handleInput :: BotState -> String -> (String, BotState) -- Takes current state and user input, returns response and next state
-handleInput Idle input
-    | containsAll input ["waar", "pakket"] = ("Om uw pakketje te volgen heb ik uw trackingnummer nodig.", WaitingForTracking)
-    | containsAny input ["hallo", "hi", "hey", "dag"] = ("Hallo! Hoe kan ik u helpen?", Idle)
-    | containsAny input ["tracking", "nummer"] = ("U moet eerst vragen waar uw pakketje is voordat u een nummer opgeeft.", Idle)
-    | input == "exit" || input == "stop" = ("Tot ziens!", Idle)
-    | otherwise = ("Het spijt me, dat begrijp ik niet. Bedoelt u 'waar is mijn pakketje'?", Idle)
+handleInput :: BotState -> String -> (String, BotState)
+handleInput Idle input    
+    | containsAll norm ["waar", "pakket"] = (R.msgAskTracking, WaitingForTracking)
+    | containsAny norm ["hallo", "hi", "hey", "dag"] = (R.msgGreeting, Idle)
+    | containsAny norm ["tracking", "nummer"] = (R.msgRejectTracking, Idle)
+    | norm `elem` ["exit", "stop"] = (R.msgExit, Idle)
+    | otherwise = (R.msgUnknown, Idle)
+    where norm = map toLower input
 
 handleInput WaitingForTracking input
-    | any isDigit input && containsAny input ["tracking", "nummer", "is", "hier"] = ("Bedankt! Uw pakketje is onderweg en zal binnen 2 werkdagen bij u zijn.", Idle)
-    | otherwise = ("Ik heb een trackingnummer nodig om u te helpen (bijv. '123456').", WaitingForTracking)
-
+    | any isDigit input = (R.msgTrackingSuccess, Idle)
+    | otherwise = (R.msgTrackingRetry, WaitingForTracking)
+    where norm = map toLower input
 -- Recursion: The function calls itself to implement loop: runBot nextState.
 runBot :: BotState -> IO ()
 runBot state = do
@@ -34,5 +36,5 @@ runBot state = do
 
 main :: IO ()
 main = do
-    putStrLn "PostNL Chatbot gestart. Typ 'exit' om te stoppen."
+    putStrLn R.msgWelcome
     runBot Idle
