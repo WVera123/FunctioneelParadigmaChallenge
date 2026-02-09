@@ -1,6 +1,8 @@
 import Data.Char (toLower, isDigit, isAlpha, isSpace)
 import Data.List (isInfixOf)
 import Control.Monad (unless)
+import Control.Concurrent (threadDelay)
+import System.Random 
 import qualified Responses as R
 
 -- Define states for a multi-step verification process
@@ -29,6 +31,12 @@ isValidTracking input = case filter (not . isSpace) input of
     [d1,d2,d3,d4,d5,d6] -> all isDigit [d1,d2,d3,d4,d5,d6]
     _                   -> False
 
+getChanceOutcome :: Int -> String
+getChanceOutcome n
+    | n <= 80   = R.msgFinalSuccess -- 80% Success
+    | n <= 95   = R.msgFinalDelay   -- 15% Delay
+    | otherwise = R.msgFinalProblem -- 5% Missing/Problem
+
 -- Pattern matching on BotState and input
 handleInput :: BotState -> String -> (String, BotState) -- Takes current state and user input, returns response and next state
 handleInput state input -- Binds parameters state and input
@@ -43,7 +51,7 @@ handleInput Idle input -- Only checks input for these keywords when in Idle stat
 
 -- TRACKING state
 handleInput WaitingForTracking input
-    | isValidTracking input = (R.msgFinalSuccess, WaitingForPackageStatus)
+    | isValidTracking input = (R.msgWaiting, WaitingForPackageStatus)
     | containsAny input ["waar", "vinden"] = (R.helpTracking, WaitingForTracking)
     | containsAny input ["niet", "geen"] = (R.msgAskPostalCode, WaitingForPostalCode)
     | otherwise         = (R.msgAskTracking, WaitingForTracking)
@@ -55,7 +63,7 @@ handleInput WaitingForPostalCode input
 
 -- HOUSE NUMBER state
 handleInput WaitingForHouseNumber input
-    | any isDigit input = (R.msgFinalSuccess, WaitingForPackageStatus)
+    | any isDigit input = (R.msgWaiting, WaitingForPackageStatus)
     | otherwise         = (R.msgInvalidHouse, WaitingForHouseNumber)
 
 provideHelp :: BotState -> String
@@ -70,10 +78,22 @@ runBot :: BotState -> IO ()
 runBot state = do
     input <- getLine -- Get user input
     let (response, nextState) = handleInput state input
-    putStrLn $ "PostNL: " ++ response
-    -- Terminate recursion if user exits, otherwise continue with nextState
-    unless (containsAny input ["exit", "stop"]) $
-        runBot nextState
+    case nextState of
+        WaitingForPackageStatus -> do
+            -- Acknowledge the check and simulate a short processing delay
+            putStrLn $ "PostNL: " ++ response
+            -- Decide outcome randomly
+            chance <- randomRIO (1, 100 :: Int)
+            let packageStatusResponse = getChanceOutcome chance
+            threadDelay 1500000  -- 1.5s pause to simulate lookup
+            putStrLn $ "PostNL: " ++ packageStatusResponse
+            runBot Idle
+
+        _ -> do
+            putStrLn $ "PostNL: " ++ response
+            -- Terminate recursion if user exits, otherwise continue with nextState
+            unless (containsAny input ["exit", "stop"]) $
+                runBot nextState
 
 main :: IO ()
 main = do

@@ -11,6 +11,8 @@ msgAskTracking     = "Om uw pakketje te volgen heb ik uw 6-cijferige trackingnum
 msgAskPostalCode   = "Om te controleren waar uw pakket is heb ik een aantal gegevens nodig. Wat is de postcode van de ontvanger?"
 msgAskHouseNumber  = "Postcode ontvangen. Wat is uw huisnummer?"
 msgWaiting         = "Bedankt! De gegevens kloppen. We halen de gegevens van uw pakket op, even geduld..."
+msgFinalDelay      = "Uw pakket is onderweg, maar er is een kleine vertraging. We verwachten dat het binnen 2 dagen bij u is."
+msgFinalProblem    = "Er lijkt een probleem te zijn met uw pakket. Neem contact op met onze klantenservice voor meer informatie."
 msgFinalSuccess    = "Goed nieuws! Uw pakket is onderweg en wordt binnen 1 werkdag bij u afgeleverd."
 
 -- Error Handling
