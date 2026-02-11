@@ -15,12 +15,20 @@ msgFinalDelay      = "Uw pakket is onderweg, maar er is een kleine vertraging. W
 msgFinalProblem    = "Er lijkt een probleem te zijn met uw pakket. Neem contact op met onze klantenservice voor meer informatie."
 msgFinalSuccess    = "Goed nieuws! Uw pakket is onderweg en wordt binnen 1 werkdag bij u afgeleverd."
 
+-- Shipping Flow
+msgAskShipping    = "Onze verzendkosten zijn afhankelijk van het gewicht en de bestemming van uw pakket. Hoeveel weegt uw pakket in kilogrammen?"
+msgAskDestination = "Is de bestemming van uw pakket binnenlands of buitenlands?"
+msgCalculateShipping = "Bedankt! De prijs van het verzenden van uw pakket wordt berekend, even geduld..."
+
 -- Error Handling
 msgInvalidPostal   = "Dat lijkt geen geldige postcode. Gebruik het formaat '1234 AB'."
 msgInvalidHouse    = "Dat lijkt geen geldig huisnummer. Probeer het opnieuw."
+msgInvalidKG       = "Voer het gewicht van uw pakket in kilogrammen in. Gebruik het formaat '2.5'."
+msgInvalidShipping = "Voer 'binnenlands' in voor binnenlandse bestemming of 'buitenlands' voor een buitenlandse bestemming."
 
 -- Contextual Help
 helpIdle           = "U kunt vragen: 'Waar is mijn pakket?'."
 helpTracking       = "Uw trackingnummer kunt u vinden in de bevestigingsmail van uw bestelling en bestaat uit 6 cijfers."
 helpPostal         = "Voer de 4 cijfers en 2 letters van uw postcode in."
 helpHouse          = "Voer uw huisnummer en eventuele toevoeging in."
+helpKgPackage      = "Voer het gewicht van uw pakket in kilogrammen. Bijvoorbeeld: '2.5' voor 2,5 kg."
