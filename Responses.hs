@@ -13,12 +13,16 @@ msgAskHouseNumber  = "Postcode ontvangen. Wat is uw huisnummer?"
 msgWaiting         = "Bedankt! De gegevens kloppen. We halen de gegevens van uw pakket op, even geduld..."
 msgFinalDelay      = "Uw pakket is onderweg, maar er is een kleine vertraging. We verwachten dat het binnen 2 dagen bij u is."
 msgFinalProblem    = "Er lijkt een probleem te zijn met uw pakket. Neem contact op met onze klantenservice voor meer informatie."
-msgFinalSuccess    = "Goed nieuws! Uw pakket is onderweg en wordt binnen 1 werkdag bij u afgeleverd."
+msgInTransit       = "Uw pakket is onderweg en wordt vervoerd naar het volgende sorteercentrum."
+msgOutForDelivery  = "Goed nieuws! Uw pakket is onderweg en wordt binnen 1 werkdag bij u afgeleverd."
 
 -- Shipping Flow
 msgAskShipping    = "Onze verzendkosten zijn afhankelijk van het gewicht en de bestemming van uw pakket. Hoeveel weegt uw pakket in kilogrammen?"
 msgAskDestination = "Is de bestemming van uw pakket binnenlands of buitenlands?"
 msgCalculateShipping = "Bedankt! De prijs van het verzenden van uw pakket wordt berekend, even geduld..."
+
+-- Package help
+msgExcuseAskTracking = "Wat vervelend om te horen dat u uw pakket niet kunt vinden. Neem contact op met onze klantenservice voor aanvullende hulp."
 
 -- Error Handling
 msgInvalidPostal   = "Dat lijkt geen geldige postcode. Gebruik het formaat '1234 AB'."
