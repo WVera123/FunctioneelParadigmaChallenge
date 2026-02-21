@@ -41,7 +41,9 @@ handleInput Idle input -- Only checks input for these keywords when in Idle stat
     | otherwise                                     = (msgUnknown, Idle)
 
 handleInput WaitingForKgPackage input
-    | isValidKg input = let weight = parseKg input in (msgAskDestination, WaitingForDestinationPackage weight)
+    | isValidKg input = case parseKg input of
+                            Just weight -> (msgAskDestination, WaitingForDestinationPackage weight)
+                            Nothing     -> (msgInvalidKG, WaitingForKgPackage)
     | otherwise = (msgInvalidKG, WaitingForKgPackage)
 
 handleInput (WaitingForDestinationPackage weight) input
@@ -80,7 +82,6 @@ runBot state = do
     let (response, nextState) = handleInput state input
     case nextState of
         WaitingForPackageStatus -> do
-            -- Acknowledge the check and simulate a short processing delay
             putStrLn $ "PostNL: " ++ response
             -- Decide outcome randomly
             chance <- randomRIO (1, 100 :: Int)
