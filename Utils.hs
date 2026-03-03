@@ -47,7 +47,7 @@ normalizeKg input =
 -- Parse kg: parses the input (string) into a Maybe Double.
 parseKg :: String -> Maybe Double
 parseKg input =
-    case reads (normalizeKg input) :: [(Double, String)] of
+    case reads (normalizeKg input) :: [(Double, String)] of -- Reads tries to parse the normalized input as a Double.
          [(weight, rest)] -> if null rest && weight >= 0 then Just weight else Nothing
          _                -> Nothing
 
