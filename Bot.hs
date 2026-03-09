@@ -74,6 +74,7 @@ provideHelp state = case state of --Based on BotState, return corresponding help
     WaitingForPostalCode -> helpPostal
     WaitingForHouseNumber -> helpHouse
     WaitingForKgPackage -> helpKgPackage
+    WaitingForDestinationPackage _ -> helpDestination
 
 -- Recursion: The function calls itself to implement loop: runBot nextState.
 runBot :: BotState -> IO ()
@@ -90,7 +91,7 @@ runBot state = do
             putStrLn $ "PostNL: " ++ packageStatusResponse
             runBot Idle
 
-        WaitingForShippingCalculation weight dest -> do -- If state is WaitingForShippingCalculation, calculate shipping cost
+        WaitingForShippingCalculation weight dest -> do -- If state is WaitingForShippingCalculation, calculate shipping cost based on weight and destination
             putStrLn $ "PostNL: " ++ response
             let shippingCost = calculateShipping weight dest
             threadDelay 1500000

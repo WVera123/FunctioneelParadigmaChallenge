@@ -36,3 +36,4 @@ helpTracking       = "Uw trackingnummer kunt u vinden in de bevestigingsmail van
 helpPostal         = "Voer de 4 cijfers en 2 letters van uw postcode in."
 helpHouse          = "Voer uw huisnummer en eventuele toevoeging in."
 helpKgPackage      = "Voer het gewicht van uw pakket in kilogrammen. Bijvoorbeeld: '2,45'."
+helpDestination    = "Voer 'binnenlands' in voor een binnenlandse bestemming of 'buitenlands' voor een buitenlandse bestemming."
